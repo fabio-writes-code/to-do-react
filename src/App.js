@@ -1,11 +1,12 @@
-import { useState} from "react"
+import { useState } from "react"
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import Button from "./components/Button";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
-  const [tasks, setTasks]=useState([
+  const [tasks, setTasks] = useState([
     {
       id: 1,
       text: "Reminder1",
@@ -26,31 +27,32 @@ function App() {
     }
   ])
 
- 
+
   //Delete task
-  const deleteTask=(id)=>{
-    
-    setTasks(tasks.filter((task)=>task.id!==id))
+  const deleteTask = (id) => {
+
+    setTasks(tasks.filter((task) => task.id !== id))
   }
 
   // add task
-  const addTask=(task)=>{
-    const id =Math.floor(Math.random()*10000)+1
-    const newTask={id, ...task}
-    setTasks([...tasks,newTask])
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1
+    const newTask = { id, ...task }
+    setTasks([...tasks, newTask])
   }
 
- 
+
   //Reminder
-  const reminder=(id)=>{
-    setTasks(tasks.map((task)=>task.id===id?{...task,reminder:!task.reminder}:task))
+  const reminder = (id) => {
+    setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task))
 
   }
   return (
     <div className="container">
-      <Header title={'Task Tracker'} onAdd={()=>setShowAddTask(!showAddTask)} showAdd={showAddTask} />
-      {showAddTask && <AddTask onAddTask={addTask}/>}
-      {tasks.length>0? <Tasks tasks={tasks} onDelete={deleteTask} onReminder={reminder}/>:'No tasks available'}
+      <Header title={'Task Tracker'} onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onReminder={reminder} /> : 'No tasks available'}
+      <Button onClick={() => setShowAddTask(!showAddTask)} color={showAddTask ? 'red' : 'green'} text={showAddTask ? 'Close' : 'Create New Task'} />
+      {showAddTask && <AddTask onAddTask={addTask} />}
     </div>
   );
 }
